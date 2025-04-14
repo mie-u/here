@@ -128,13 +128,13 @@
               <div class="person-name">${item.name}</div>
               <div class="${statusClass}">${item.status}</div>
             </div>
-            <div class="buttons">
-<button class="btn-在席" onclick="updateStatus('${item.name}', '在席', this)">在席</button>
-<button class="btn-図書館" onclick="updateStatus('${item.name}', '図書館', this)">図書館</button>
-<button class="btn-DX" onclick="updateStatus('${item.name}', 'ＤＸ', this)">ＤＸ</button>
-<button class="btn-その他" onclick="updateStatus('${item.name}', 'その他', this)">その他</button>
-<button class="btn-帰宅" onclick="updateStatus('${item.name}', '帰宅', this)">帰宅</button>
-            </div>
+<div class="buttons" style="justify-content: center;">
+  <button class="btn-在席" onclick="updateStatus('${item.name}', '在席', this)">在席</button>
+  <button class="btn-図書館" onclick="updateStatus('${item.name}', '図書館', this)">図書館</button>
+  <button class="btn-ＤＸ" onclick="updateStatus('${item.name}', 'ＤＸ', this)">ＤＸ</button>
+  <button class="btn-その他" onclick="updateStatus('${item.name}', 'その他', this)">その他</button>
+  <button class="btn-帰宅" onclick="updateStatus('${item.name}', '帰宅', this)">帰宅</button>
+</div>
           `;
 
           board.appendChild(div);
