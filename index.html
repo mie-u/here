@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>行先掲示板</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .person { margin: 10px 0; }
+    button { margin-left: 10px; }
+  </style>
+</head>
+<body>
+  <h1>行先掲示板</h1>
+  <div id="board"></div>
+
+  <script>
+    const apiUrl = "https://script.google.com/macros/s/XXXXXXXXXXXXXXXXXXX/exec"; // ← ここを自分のURLに変える
+
+    async function loadBoard() {
+      const res = await fetch(apiUrl);
+      const data = await res.json();
+      const board = document.getElementById("board");
+      board.innerHTML = "";
+
+      data.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "person";
+        div.innerHTML = `
+          <strong>${item.name}</strong>：<span>${item.status}</span>
+          <button onclick="updateStatus('${item.name}', '在席')">在席</button>
+          <button onclick="updateStatus('${item.name}', '外出')">外出</button>
+          <button onclick="updateStatus('${item.name}', '帰宅')">帰宅</button>
+        `;
+        board.appendChild(div);
+      });
+    }
+
+    async function updateStatus(name, status) {
+      await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `name=${encodeURIComponent(name)}&status=${encodeURIComponent(status)}`
+      });
+      loadBoard(); // 更新後に再読み込み
+    }
+
+    loadBoard();
+  </script>
+</body>
+</html>
