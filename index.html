@@ -7,41 +7,67 @@
     body { font-family: sans-serif; padding: 20px; }
     .person { margin: 10px 0; }
     button { margin-left: 10px; }
+    .status { margin-left: 8px; }
+    .loading { color: gray; font-style: italic; }
   </style>
 </head>
 <body>
   <h1>行先掲示板</h1>
-  <div id="board"></div>
+  <div id="board" class="loading">読み込み中...</div>
 
   <script>
-    const apiUrl = "https://script.google.com/macros/s/AKfycbyHJms5hgiUbyVDA2sZqoOcinYrGSronRfLNgS5siAi_uv4k6JnfIF-JCKM7q6fm9CzuA/exec"; // ← ここを自分のURLに変える
+    const apiUrl = "https://script.google.com/macros/s/XXXXXXXXXXXXXXXXXXX/exec"; // ← 自分のURLに差し替え
+
+    let boardData = [];
 
     async function loadBoard() {
-      const res = await fetch(apiUrl);
-      const data = await res.json();
       const board = document.getElementById("board");
-      board.innerHTML = "";
+      board.innerHTML = "読み込み中...";
 
-      data.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "person";
-        div.innerHTML = `
-          <strong>${item.name}</strong>：<span>${item.status}</span>
-          <button onclick="updateStatus('${item.name}', '在席')">在席</button>
-          <button onclick="updateStatus('${item.name}', '外出')">外出</button>
-          <button onclick="updateStatus('${item.name}', '帰宅')">帰宅</button>
-        `;
-        board.appendChild(div);
-      });
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        boardData = data;
+
+        board.innerHTML = "";
+        data.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "person";
+          div.setAttribute("data-name", item.name);
+          div.innerHTML = `
+            <strong>${item.name}</strong>
+            <span class="status">${item.status}</span>
+            <button onclick="updateStatus('${item.name}', '在席', this)">在席</button>
+            <button onclick="updateStatus('${item.name}', '外出', this)">外出</button>
+            <button onclick="updateStatus('${item.name}', '帰宅', this)">帰宅</button>
+          `;
+          board.appendChild(div);
+        });
+      } catch (e) {
+        board.innerHTML = "データの取得に失敗しました。";
+        console.error(e);
+      }
     }
 
-    async function updateStatus(name, status) {
-      await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `name=${encodeURIComponent(name)}&status=${encodeURIComponent(status)}`
-      });
-      loadBoard(); // 更新後に再読み込み
+    async function updateStatus(name, status, button) {
+      const statusSpan = button.parentNode.querySelector(".status");
+      const originalText = statusSpan.textContent;
+      statusSpan.textContent = "更新中...";
+
+      try {
+        const res = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `name=${encodeURIComponent(name)}&status=${encodeURIComponent(status)}`
+        });
+
+        const result = await res.json();
+        statusSpan.textContent = result.status || status;
+      } catch (e) {
+        statusSpan.textContent = originalText;
+        alert("ステータス更新に失敗しました");
+        console.error(e);
+      }
     }
 
     loadBoard();
