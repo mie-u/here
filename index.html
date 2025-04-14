@@ -31,32 +31,27 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-    }
-
-    .person-header {
-      display: flex;
-      justify-content: space-between;
+      gap: 1.5rem;
       align-items: center;
     }
 
     .person-name {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: bold;
       color: #333;
     }
 
     .status-label {
-      font-size: 1.2rem;
+      font-size: 1.8rem;
       font-weight: bold;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
+      padding: 1rem 2rem;
+      border-radius: 16px;
       color: white;
-      min-width: 5rem;
       text-align: center;
+      min-width: 200px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    .status-在席 { background-color: #2196f3; }
     .status-図書館 { background-color: #03a9f4; }
     .status-ＤＸ { background-color: #4caf50; }
     .status-その他 { background-color: #607d8b; }
@@ -84,7 +79,6 @@
       transform: scale(1.05);
     }
 
-    .btn-在席 { background-color: #2196f3; }
     .btn-図書館 { background-color: #03a9f4; }
     .btn-ＤＸ { background-color: #4caf50; }
     .btn-その他 { background-color: #607d8b; }
@@ -128,12 +122,9 @@
           const statusClass = `status-label status-${item.status || '未設定'}`;
 
           div.innerHTML = `
-            <div class="person-header">
-              <div class="person-name">${item.name}</div>
-              <div class="${statusClass}">${item.status}</div>
-            </div>
+            <div class="person-name">${item.name}</div>
+            <div class="${statusClass}">${item.status}</div>
             <div class="buttons">
-              <button class="btn-在席" onclick="updateStatus('${item.name}', '在席', this)">🧑‍💼在席</button>
               <button class="btn-図書館" onclick="updateStatus('${item.name}', '図書館', this)">📚図書館</button>
               <button class="btn-ＤＸ" onclick="updateStatus('${item.name}', 'ＤＸ', this)">💻ＤＸ</button>
               <button class="btn-その他" onclick="updateStatus('${item.name}', 'その他', this)">🏃‍♂️その他</button>
