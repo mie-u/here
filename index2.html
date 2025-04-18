@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>行先掲示板</title>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
@@ -99,15 +99,15 @@
 
   <script>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyB_rAQzoPefwlMHSg2nAtoGc9fSf-WUYIs",
-      authDomain: "where-app-2e035.firebaseapp.com",
-      databaseURL: "https://where-app-2e035-default-rtdb.firebaseio.com",
-      projectId: "where-app-2e035",
-      storageBucket: "where-app-2e035.firebasestorage.app",
-      messagingSenderId: "484167457619",
-      appId: "1:484167457619:web:d7ccd0c430b04d8bc85fa6"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyB_rAQzoPefwlMHSg2nAtoGc9fSf-WUYIs",
+  authDomain: "where-app-2e035.firebaseapp.com",
+  databaseURL: "https://where-app-2e035-default-rtdb.firebaseio.com",
+  projectId: "where-app-2e035",
+  storageBucket: "where-app-2e035.firebasestorage.app",
+  messagingSenderId: "484167457619",
+  appId: "1:484167457619:web:d7ccd0c430b04d8bc85fa6"
+};
 
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.database(app);
@@ -139,7 +139,7 @@
             <div class="buttons">
               <button class="btn-図書館" onclick="updateStatus('${name}', '図書館', this)">📚図書館</button>
               <button class="btn-ＤＸ" onclick="updateStatus('${name}', 'ＤＸ', this)">💻ＤＸ</button>
-              <button class="btn-その他" onclick="updateStatus('${name}', 'その他', this)">🏃‍♂️その他</button>
+              <button class="btn-その他" onclick="updateStatus('${name}', 'その他', this)">🏃‍その他</button>
               <button class="btn-帰宅" onclick="updateStatus('${name}', '帰宅', this)">🏠帰宅</button>
             </div>
           `;
